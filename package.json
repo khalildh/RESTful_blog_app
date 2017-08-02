@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalildh/RESTful_blog_app.git"
+  },
   "author": "Khalil Hughes",
   "license": "ISC",
   "dependencies": {

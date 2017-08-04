@@ -1,7 +1,7 @@
 const express = require('express'),
 mongoose = require('mongoose'),
 bodyParser = require('body-parser'),
-app = express()
+app = express(),
 server = 8000;
 
 
@@ -11,7 +11,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.connect("mongodb://localhost/restful_blog_app", {useMongoClient: true});
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 
 
 // MONGOOSE/MODEL CONFIG

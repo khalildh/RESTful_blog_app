@@ -26,17 +26,38 @@ const Blog = mongoose.model("Blog", blogSchema);
 
 // RESTFUL ROUTES
 
+// ROOT ROUTE
 app.get("/", function(req, res){
-  console.log("Get on '/'");
+  console.log("GET: '/'");
   res.redirect("/blogs")
 })
+
+// INDEX ROUTE
 app.get("/blogs", function(req, res){
-  console.log("Get on '/blogs'");
+  console.log("GET: '/blogs'");
   Blog.find({}, function(err, blogs){
     if (err) {
       console.log("ERROR!");
     } else {
       res.render("index", {"blogs": blogs})
+    }
+  });
+});
+
+// CREATE ROUTE
+app.get("/blogs/new", function(req, res) {
+  console.log("GET: 'blogs/new'");
+  res.render("new");
+});
+
+app.post("/blogs", function(req, res) {
+  console.log("POST: '/blogs'");
+  Blog.create(req.body.blog, function(err, newBlog) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("New Blog Created");
+      res.redirect("/blogs");
     }
   });
 });

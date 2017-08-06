@@ -3,6 +3,7 @@
 <div class="ui main container segment">
     <div class="ui huge header"><%= blog.title %></div>
     <div class="ui top attached">
+
       <div class="item">
         <img class="ui centered rounded image"src="<%= blog.image %>" alt="">
         <div class="content">
@@ -11,7 +12,7 @@
         <div class="description">
           <p><%- blog.body %></p>
         </div>
-        <a class="ui orange basic button" href="/blogs/<%= blog._id%>"> edit</a>
+        <a class="ui orange basic button" href="/blogs/<%= blog._id%>/edit"> edit</a>
         <form id="delete" class="" action="/blogs/<%= blog._id%>?_method=DELETE" method="POST">
           <button class="ui red basic button">DELETE</button>
         </form>

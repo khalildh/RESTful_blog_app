@@ -1,4 +1,5 @@
 const express = require('express'),
+expressSanitizer = require('express-sanitizer'),
 methodOverride = require('method-override'),
 mongoose = require('mongoose'),
 bodyParser = require('body-parser'),
@@ -10,6 +11,7 @@ server = 8000;
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
 mongoose.connect("mongodb://localhost/restful_blog_app", {useMongoClient: true});
@@ -46,14 +48,19 @@ app.get("/blogs", function(req, res){
   });
 });
 
-// CREATE ROUTE
+// NEW ROUTE
 app.get("/blogs/new", function(req, res) {
   console.log("GET: 'blogs/new'");
   res.render("new");
 });
 
+// CREATE ROUTE
 app.post("/blogs", function(req, res) {
   console.log("POST: '/blogs'");
+  console.log(req.body);
+  req.body.blog.body = req.sanitize(req.body.blog.body);
+  console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=");
+  console.log(req.body);
   Blog.create(req.body.blog, function(err, newBlog) {
     if (err) {
       console.log(err);
@@ -91,6 +98,7 @@ app.get("/blogs/:id/edit", function(req, res) {
 //UPDATE ROUTE
 app.put("/blogs/:id", function(req, res) {
   console.log("PUT: '/blogs/" + req.params.id + "'");
+  req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
     if (err) {
       res.redirect("/blogs");
@@ -102,6 +110,7 @@ app.put("/blogs/:id", function(req, res) {
 
 //DELETE ROUTE
 app.delete("/blogs/:id", function(req, res) {
+  console.log("DELETE: '/blogs/" + req.params.id + "'");
   Blog.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
       res.redirect("/blogs");
